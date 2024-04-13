@@ -21,4 +21,43 @@ public class Usuario {
     @JoinColumn(name = "papel_id", nullable = false)
     private Papel papel;
 
+    public Usuario(){}
+    public Usuario(Long id, String senha, String login, Papel papel) {
+        this.id = id;
+        this.senha = senha;
+        this.login = login;
+        this.papel = papel;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Papel getPapel() {
+        return papel;
+    }
+
+    public void setPapel(Papel papel) {
+        this.papel = papel;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
 }
