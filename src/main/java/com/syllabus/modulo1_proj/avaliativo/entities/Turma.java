@@ -1,5 +1,4 @@
 package com.syllabus.modulo1_proj.avaliativo.entities;
-
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -17,14 +16,12 @@ public class Turma {
     private String nome;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "professor_id", nullable = false)
+    @JoinColumn(name = "professor_id")
     private Docente docente;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
-
-
 
 
     public Turma(){}
