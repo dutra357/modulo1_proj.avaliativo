@@ -26,9 +26,9 @@ public class DocenteImpl implements DocenteService {
     }
 
     @Override
-    public Docente criarDocente(DtoDocenteRequest docente) {
+    public DtoDocenteResponse criarDocente(DtoDocenteRequest docente) {
 
-        if (usuarioRepo.getById(docente.getUsuario_id()) == null){
+        if (usuarioRepo.existsById(docente.getUsuario_id())){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Impossível criar um docente para um usuário não cadastrado."
             );
@@ -39,7 +39,8 @@ public class DocenteImpl implements DocenteService {
         novoDocente.setDataEntrada(LocalDate.now());
         novoDocente.setUsuario(usuarioRepo.getById(docente.getUsuario_id()));
 
-        return repository.save(novoDocente);
+        repository.save(novoDocente);
+        return new DtoDocenteResponse(novoDocente);
     }
 
     @Override
