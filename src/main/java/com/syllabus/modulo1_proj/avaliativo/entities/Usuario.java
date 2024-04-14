@@ -17,7 +17,7 @@ public class Usuario {
     @Column(name = "senha", length = 250, nullable = false)
     private String senha;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL, optional = false)
     @JoinColumn(name = "papel_id", nullable = false)
     private Papel papel;
 

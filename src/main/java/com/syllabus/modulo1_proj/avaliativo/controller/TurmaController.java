@@ -21,7 +21,7 @@ public class TurmaController {
     }
 
     @PostMapping
-    public ResponseEntity<Turma> criarTurma(@RequestBody @Valid DtoTurma novaTurma) {
+    public ResponseEntity<Turma> criarTurma(@RequestBody DtoTurma novaTurma) {
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.criarTurma(novaTurma));
     }
 

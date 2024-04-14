@@ -25,8 +25,8 @@ public class DocenteController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DtoDocenteResponse> obterDocentePorId(@PathVariable Long docenteId) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.obterDocentePorId(docenteId));
+    public ResponseEntity<DtoDocenteResponse> obterDocentePorId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.obterDocentePorId(id));
     }
 
     @PutMapping("{id}")
