@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DocenteService {
 
-    Docente criarDocente(DtoDocenteRequest docente);
+    DtoDocenteResponse criarDocente(DtoDocenteRequest docente);
 
     DtoDocenteResponse obterDocentePorId(Long id);
 
