@@ -1,7 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.service;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.docente.DtoDocenteRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.docente.DtoDocenteResponse;
-import com.syllabus.modulo1_proj.avaliativo.entities.Docente;
 import java.util.List;
 
 public interface DocenteService {

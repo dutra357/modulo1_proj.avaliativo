@@ -1,15 +1,12 @@
 package com.syllabus.modulo1_proj.avaliativo.controller;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNota;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
-import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
