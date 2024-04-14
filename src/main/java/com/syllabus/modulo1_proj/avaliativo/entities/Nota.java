@@ -12,7 +12,7 @@ public class Nota {
     private Long id;
 
     @Column(name = "valor")
-    private Double valor;
+    private Double valor = 0.0;
 
     @Column(name = "data")
     private LocalDate dataNota;
