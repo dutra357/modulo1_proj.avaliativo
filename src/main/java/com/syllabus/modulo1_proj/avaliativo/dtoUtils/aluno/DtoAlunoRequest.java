@@ -13,9 +13,6 @@ public class DtoAlunoRequest {
     private Long usuario_id;
 
     @NotNull
-    private String nome_papel;
-
-    @NotNull
     private LocalDate dataNascimento;
 
     @NotNull
@@ -26,7 +23,6 @@ public class DtoAlunoRequest {
     public DtoAlunoRequest(String nome, Long usuario_id, String nome_papel, LocalDate dataNascimento, Long turma_id) {
         this.nome = nome;
         this.usuario_id = usuario_id;
-        this.nome_papel = nome_papel;
         this.dataNascimento = dataNascimento;
         this.turma_id = turma_id;
     }
@@ -45,14 +41,6 @@ public class DtoAlunoRequest {
 
     public void setUsuario_id(Long usuario_id) {
         this.usuario_id = usuario_id;
-    }
-
-    public String getNome_papel() {
-        return nome_papel;
-    }
-
-    public void setNome_papel(String nome_papel) {
-        this.nome_papel = nome_papel;
     }
 
     public LocalDate getDataNascimento() {

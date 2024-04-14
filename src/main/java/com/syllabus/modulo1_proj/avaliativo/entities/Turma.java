@@ -15,7 +15,7 @@ public class Turma {
     @Column(name = "nome", length = 150, nullable = false)
     private String nome;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "professor_id")
     private Docente docente;
 

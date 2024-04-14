@@ -5,6 +5,7 @@ import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Aluno;
 import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 import com.syllabus.modulo1_proj.avaliativo.repository.AlunoRepository;
+import com.syllabus.modulo1_proj.avaliativo.repository.TurmaRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
 import org.slf4j.Logger;
@@ -22,18 +23,27 @@ public class AlunoImpl implements AlunoService {
 
     private final AlunoRepository repository;
     private final UsuarioRepository usuarioRepo;
-    public AlunoImpl(AlunoRepository repository, UsuarioRepository usuarioRepo) {
+    private final TurmaRepository turmaRepo;
+    public AlunoImpl(AlunoRepository repository, UsuarioRepository usuarioRepo, TurmaRepository turmaRepo) {
         this.repository = repository;
         this.usuarioRepo = usuarioRepo;
+        this.turmaRepo = turmaRepo;
     }
 
     @Override
     public DtoAlunoResponse criarAluno(DtoAlunoRequest aluno) {
-        if (usuarioRepo.existsById(aluno.getUsuario_id())){
+        if (!usuarioRepo.existsById(aluno.getUsuario_id())){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Impossível criar um Aluno sem um usuário não cadastrado."
             );
         }
+
+        if (!turmaRepo.existsById(aluno.getTurma_id())){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Impossível criar um Aluno sem o vincular a uma Turma existente/válida."
+            );
+        }
+
         Aluno novoAluno = new Aluno();
 
         novoAluno.setNome(aluno.getNome());

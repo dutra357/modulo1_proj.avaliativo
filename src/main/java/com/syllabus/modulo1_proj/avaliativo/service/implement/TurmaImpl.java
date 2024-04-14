@@ -1,5 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoTurma;
+import com.syllabus.modulo1_proj.avaliativo.entities.Docente;
 import com.syllabus.modulo1_proj.avaliativo.entities.Turma;
 import com.syllabus.modulo1_proj.avaliativo.repository.CursoRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.DocenteRepository;
@@ -35,12 +36,16 @@ public class TurmaImpl implements TurmaService {
             );
         }
 
+        if (!docenteRepo.existsById(turma.getDocente_id())) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "É necessário um Docente cadastrado para a Turma."
+            );
+        }
+        Docente docente = docenteRepo.getById(turma.getDocente_id());
         Turma novaTurma = new Turma();
         novaTurma.setNome(turma.getNome());
+        novaTurma.setDocente(docente);
         novaTurma.setCurso(cursoRepo.getById(turma.getCurso_id()));
-        if (turma.getDocente_id() != null) {
-            novaTurma.setDocente(docenteRepo.getById(turma.getDocente_id()));
-        }
         return repository.save(novaTurma);
     }
 
