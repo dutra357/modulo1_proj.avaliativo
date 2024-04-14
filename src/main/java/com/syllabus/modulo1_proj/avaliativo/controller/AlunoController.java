@@ -1,4 +1,5 @@
 package com.syllabus.modulo1_proj.avaliativo.controller;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
@@ -43,5 +44,10 @@ public class AlunoController {
     @GetMapping
     public ResponseEntity<List<DtoAlunoResponse>> listarTodosAlunos() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarTodosAlunos());
+    }
+
+    @GetMapping("{id}/pontuacao")
+    public ResponseEntity<DtoNotaFinal> pontuacaoAluno(@PathVariable Long alunoId) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.pontuacaoAluno(alunoId));
     }
 }

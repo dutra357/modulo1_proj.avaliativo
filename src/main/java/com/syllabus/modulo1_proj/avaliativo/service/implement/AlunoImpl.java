@@ -1,7 +1,9 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Aluno;
+import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 import com.syllabus.modulo1_proj.avaliativo.repository.AlunoRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
@@ -90,5 +92,28 @@ public class AlunoImpl implements AlunoService {
             );
         }
         return listaAlunos.stream().map(x -> new DtoAlunoResponse(x)).collect(Collectors.toList());
+    }
+
+    @Override
+    public DtoNotaFinal pontuacaoAluno(Long alunoId){
+        if (!repository.existsById(alunoId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Aluno não encontrado."
+            );
+        }
+
+        List<Nota> notasAluno = repository.listarNotasPorAluno(alunoId);
+
+        if (notasAluno.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Aluno não encontrado."
+            );
+        }
+
+        Double total = 0.0;
+        for (Nota count : notasAluno){
+            total += count.getValor();
+        }
+        return new DtoNotaFinal((total/notasAluno.size())*10);
     }
 }
