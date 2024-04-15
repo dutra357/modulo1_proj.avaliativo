@@ -1,11 +1,14 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoTurma;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurma;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurmaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Docente;
 import com.syllabus.modulo1_proj.avaliativo.entities.Turma;
 import com.syllabus.modulo1_proj.avaliativo.repository.CursoRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.DocenteRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.TurmaRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.TurmaService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TurmaImpl implements TurmaService {
@@ -29,7 +33,8 @@ public class TurmaImpl implements TurmaService {
     }
 
     @Override
-    public Turma criarTurma(DtoTurma turma) {
+    @Transactional
+    public DtoTurmaResponse criarTurma(DtoTurma turma) {
         if (!cursoRepo.existsById(turma.getCurso_id())) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "É necessário um Curso válido para se cadastrar uma Turma."
@@ -41,26 +46,31 @@ public class TurmaImpl implements TurmaService {
                     HttpStatus.NOT_FOUND, "É necessário um Docente cadastrado para a Turma."
             );
         }
-        Docente docente = docenteRepo.getById(turma.getDocente_id());
+
         Turma novaTurma = new Turma();
-        novaTurma.setNome(turma.getNome());
+        Docente docente = docenteRepo.getById(turma.getDocente_id());
         novaTurma.setDocente(docente);
+        novaTurma.setNome(turma.getNome());
         novaTurma.setCurso(cursoRepo.getById(turma.getCurso_id()));
-        return repository.save(novaTurma);
+
+        repository.save(novaTurma);
+
+        return new DtoTurmaResponse(novaTurma);
     }
 
     @Override
-    public Turma obterTurmaPorId (Long id){
+    public DtoTurmaResponse obterTurmaPorId (Long id){
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Turma não encontrada."
             );
         }
-        return repository.findById(id).get();
+        return new DtoTurmaResponse(repository.findById(id).get());
     }
 
     @Override
-    public Turma atualizarTurma(Long id, DtoTurma turma) {
+    @Transactional
+    public DtoTurmaResponse atualizarTurma(Long id, DtoTurma turma) {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Turma não encontrada para modificação."
@@ -79,7 +89,8 @@ public class TurmaImpl implements TurmaService {
         if (turma.getDocente_id() != null) {
             atual.setDocente(docenteRepo.getById(turma.getDocente_id()));
         }
-        return repository.save(atual);
+        repository.save(atual);
+        return new DtoTurmaResponse(atual);
     }
 
     @Override
@@ -93,14 +104,16 @@ public class TurmaImpl implements TurmaService {
     }
 
     @Override
-    public List<Turma> listarTodasAsTurmas() {
+    public List<DtoTurmaResponse> listarTodasAsTurmas() {
         List<Turma> turmas = repository.findAll();
+
         if (turmas.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há Turmas cadastradas."
             );
         }
-        return turmas;
+
+        return turmas.stream().map(x -> new DtoTurmaResponse(x)).collect(Collectors.toList());
     }
 
 }

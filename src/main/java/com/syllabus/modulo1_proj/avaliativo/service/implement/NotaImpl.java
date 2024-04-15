@@ -1,11 +1,14 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNota;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNota;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurmaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 import com.syllabus.modulo1_proj.avaliativo.repository.AlunoRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.DocenteRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.MateriaRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.NotasRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.NotaService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NotaImpl implements NotaService {
@@ -32,7 +36,7 @@ public class NotaImpl implements NotaService {
 
 
     @Override
-    public List<Nota> listarNotasPorAluno(Long id) {
+    public List<DtoNotaResponse> listarNotasPorAluno(Long id) {
         if (!alunoRepo.existsById(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno inexistente para pesquisa."
@@ -46,11 +50,12 @@ public class NotaImpl implements NotaService {
                     HttpStatus.NOT_FOUND, "Não há notas cadastradas para este Aluno."
             );
         }
-        return notasAluno;
+        return notasAluno.stream().map(x -> new DtoNotaResponse(x)).collect(Collectors.toList());
     }
 
     @Override
-    public Nota criarNota(DtoNota nota) {
+    @Transactional
+    public DtoNotaResponse criarNota(DtoNota nota) {
         if (!materiaRepo.existsById(nota.getMateria_id())) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Materia não encontrada para se cadastrar uma nota."
@@ -76,21 +81,22 @@ public class NotaImpl implements NotaService {
         novaNota.setAluno(alunoRepo.getById(nota.getAluno_id()));
         novaNota.setDocente(docenteRepo.getById(nota.getDocente_id()));
         novaNota.setMateria(materiaRepo.getById(nota.getMateria_id()));
-        return repository.save(novaNota);
+        repository.save(novaNota);
+        return new DtoNotaResponse(novaNota);
     }
 
     @Override
-    public Nota obterNotaPorId (Long id){
+    public DtoNotaResponse obterNotaPorId (Long id){
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Nota não encontrada."
             );
         }
-        return repository.findById(id).get();
+        return new DtoNotaResponse(repository.findById(id).get());
         }
 
     @Override
-    public Nota atualizarNota(Long id, DtoNota nota) {
+    public DtoNotaResponse atualizarNota(Long id, DtoNota nota) {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Nota não encontrada para edição."
@@ -122,7 +128,7 @@ public class NotaImpl implements NotaService {
         atual.setDocente(docenteRepo.getById(nota.getDocente_id()));
         atual.setMateria(materiaRepo.getById(nota.getMateria_id()));
 
-        return repository.save(atual);
+        return new DtoNotaResponse(repository.save(atual));
     }
 
     @Override

@@ -1,17 +1,18 @@
 package com.syllabus.modulo1_proj.avaliativo.service;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoTurma;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurma;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurmaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Turma;
 import java.util.List;
 
 public interface TurmaService {
 
-    Turma criarTurma(DtoTurma turma);
+    DtoTurmaResponse criarTurma(DtoTurma turma);
 
-    Turma obterTurmaPorId(Long id);
+    DtoTurmaResponse obterTurmaPorId(Long id);
 
-    Turma atualizarTurma(Long id, DtoTurma turma);
+    DtoTurmaResponse atualizarTurma(Long id, DtoTurma turma);
 
     void deletarTurma(Long id);
 
-    List<Turma> listarTodasAsTurmas();
+    List<DtoTurmaResponse> listarTodasAsTurmas();
 }

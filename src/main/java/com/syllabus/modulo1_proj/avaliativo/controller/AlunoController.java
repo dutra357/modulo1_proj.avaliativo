@@ -26,8 +26,8 @@ public class AlunoController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DtoAlunoResponse> obterAlunoPorId(@PathVariable Long alunoId) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.obterAlunoPorId(alunoId));
+    public ResponseEntity<DtoAlunoResponse> obterAlunoPorId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.obterAlunoPorId(id));
     }
 
     @PutMapping("{id}")
@@ -47,7 +47,7 @@ public class AlunoController {
     }
 
     @GetMapping("{id}/pontuacao")
-    public ResponseEntity<DtoNotaFinal> pontuacaoAluno(@PathVariable Long alunoId) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.pontuacaoAluno(alunoId));
+    public ResponseEntity<DtoNotaFinal> pontuacaoAluno(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.pontuacaoAluno(id));
     }
 }

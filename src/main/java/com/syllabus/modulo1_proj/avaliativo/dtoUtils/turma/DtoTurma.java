@@ -1,4 +1,4 @@
-package com.syllabus.modulo1_proj.avaliativo.dtoUtils;
+package com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

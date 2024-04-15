@@ -1,6 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.controller;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoTurma;
-import com.syllabus.modulo1_proj.avaliativo.entities.Turma;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurma;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurmaResponse;
 import com.syllabus.modulo1_proj.avaliativo.service.TurmaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -21,17 +21,17 @@ public class TurmaController {
     }
 
     @PostMapping
-    public ResponseEntity<Turma> criarTurma(@RequestBody DtoTurma novaTurma) {
+    public ResponseEntity<DtoTurmaResponse> criarTurma(@RequestBody DtoTurma novaTurma) {
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.criarTurma(novaTurma));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Turma> obterTurmaPorId(@PathVariable Long id) {
+    public ResponseEntity<DtoTurmaResponse> obterTurmaPorId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.obterTurmaPorId(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Turma> atualizarTurma(@PathVariable Long id, @RequestBody @Valid DtoTurma turma) {
+    public ResponseEntity<DtoTurmaResponse> atualizarTurma(@PathVariable Long id, @RequestBody @Valid DtoTurma turma) {
         return ResponseEntity.status(HttpStatus.OK).body(service.atualizarTurma(id, turma));
     }
 
@@ -42,7 +42,7 @@ public class TurmaController {
     }
 
     @GetMapping("{id_curso}/curso")
-    public ResponseEntity<List<Turma>> listarTodasAsTurmas() {
+    public ResponseEntity<List<DtoTurmaResponse>> listarTodasAsTurmas() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarTodasAsTurmas());
     }
 }

@@ -1,8 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.entities;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "turmas")
 public class Turma {

@@ -49,6 +49,7 @@ public class AlunoImpl implements AlunoService {
         novoAluno.setNome(aluno.getNome());
         novoAluno.setDataNascimento(aluno.getDataNascimento());
         novoAluno.setUsuario(usuarioRepo.getById(aluno.getUsuario_id()));
+        novoAluno.setTurma(turmaRepo.getById(aluno.getTurma_id()));
         repository.save(novoAluno);
 
         return new DtoAlunoResponse(novoAluno);
@@ -116,7 +117,7 @@ public class AlunoImpl implements AlunoService {
 
         if (notasAluno.isEmpty()) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Aluno não encontrado."
+                    HttpStatus.NOT_FOUND, "Não há notas cadastradas."
             );
         }
 

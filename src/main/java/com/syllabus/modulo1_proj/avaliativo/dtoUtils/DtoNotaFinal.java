@@ -1,18 +1,23 @@
 package com.syllabus.modulo1_proj.avaliativo.dtoUtils;
-
+import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 public class DtoNotaFinal {
+
     private Double pontuacao;
 
     public DtoNotaFinal(){}
-    public DtoNotaFinal(Double notaFinal) {
-        this.pontuacao = notaFinal;
+    public DtoNotaFinal(Double pontuacao) {
+        this.pontuacao = pontuacao;
     }
 
-    public Double getNotaFinal() {
+    public DtoNotaFinal (Nota nota) {
+        this.pontuacao = nota.getValor();
+    }
+
+    public Double getPontuacao() {
         return pontuacao;
     }
 
-    public void setNotaFinal(Double notaFinal) {
-        this.pontuacao = notaFinal;
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
     }
 }
