@@ -23,7 +23,7 @@ public class Usuario implements UserDetails {
     @Column(name = "senha", length = 250, nullable = false)
     private String senha;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL, optional = false)
     @JoinColumn(name = "papel_id", nullable = false)
     private Papel papel;
 
@@ -31,7 +31,7 @@ public class Usuario implements UserDetails {
     private UsuarioPapel role;
 
     public Usuario(){}
-    public Usuario(Long id, String senha, String login, String papel) {
+    public Usuario(Long id, String papel, String senha, String login) {
         this.id = id;
         this.senha = senha;
         this.login = login;
@@ -39,7 +39,7 @@ public class Usuario implements UserDetails {
         this.role = UsuarioPapel.valueOf(papel);
     }
 
-    public Usuario(String senha, String login, String papel) {
+    public Usuario(String papel, String senha, String login) {
         this.senha = senha;
         this.login = login;
         this.papel = new Papel(papel);
@@ -95,6 +95,7 @@ public class Usuario implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_ALUNO"));
         }
     }
+
     @Override
     public String getPassword() {
         return senha;

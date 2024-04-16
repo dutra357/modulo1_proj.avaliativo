@@ -1,7 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.usuario.DtoUsuarioRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.usuario.DtoUsuarioResponse;
-import com.syllabus.modulo1_proj.avaliativo.entities.Papel;
 import com.syllabus.modulo1_proj.avaliativo.entities.Usuario;
 import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.UsuarioService;
@@ -31,16 +30,11 @@ public class UsuarioImpl implements UsuarioService {
             );
         }
 
-        if (!conferePapel(usuario.getPapel())) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "PAPEL inválido!."
-            );
-        }
 
         String senhaEncriptada = new BCryptPasswordEncoder().encode(usuario.getSenha());
 
-        Usuario novoUsuario = new Usuario(senhaEncriptada, usuario.getLogin(),
-                usuario.getPapel());
+        Usuario novoUsuario = new Usuario(usuario.getPapel(), senhaEncriptada,
+                usuario.getLogin());
 
         repository.save(novoUsuario);
 
@@ -49,7 +43,7 @@ public class UsuarioImpl implements UsuarioService {
 
     public boolean conferePapel(String papel) {
         var papelUpper = papel.toUpperCase();
-        if(papelUpper == "ADM" || papelUpper == "PEDAGOGICO" ||
+        if(papelUpper == "ADMIN" || papelUpper == "PEDAGOGICO" ||
                 papelUpper == "RECRUITER" ||
                 papelUpper == "PROFESSOR" ||
                 papelUpper == "ALUNO"){

@@ -23,7 +23,8 @@ public class SecConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/cadastro").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/cadastro").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/turmas","/cursos","/professores","/alunos").hasRole("PEDAGOGICO")
                         .requestMatchers(HttpMethod.POST,"/turmas","/cursos","/professores","/alunos").hasRole("PEDAGOGICO")
                         .requestMatchers(HttpMethod.PUT,"/turmas","/cursos","/professores","/alunos").hasRole("PEDAGOGICO")
@@ -39,7 +40,7 @@ public class SecConfig {
                         .requestMatchers(HttpMethod.GET,"/alunos/**").hasRole("ALUNO")
 
                         .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .build();
     }
