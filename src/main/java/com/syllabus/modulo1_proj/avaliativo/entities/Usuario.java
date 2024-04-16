@@ -27,14 +27,23 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "papel_id", nullable = false)
     private Papel papel;
 
+    @Column(name = "papel_enum")
     private UsuarioPapel role;
 
     public Usuario(){}
-    public Usuario(Long id, String senha, String login, Papel papel) {
+    public Usuario(Long id, String senha, String login, String papel) {
         this.id = id;
         this.senha = senha;
         this.login = login;
-        this.papel = papel;
+        this.papel = new Papel(papel);
+        this.role = UsuarioPapel.valueOf(papel);
+    }
+
+    public Usuario(String senha, String login, String papel) {
+        this.senha = senha;
+        this.login = login;
+        this.papel = new Papel(papel);
+        this.role = UsuarioPapel.valueOf(papel);
     }
 
     public Long getId() {
@@ -55,10 +64,6 @@ public class Usuario implements UserDetails {
 
     public String getSenha() {
         return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getLogin() {

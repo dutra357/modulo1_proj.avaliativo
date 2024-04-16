@@ -7,7 +7,10 @@ import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UsuarioImpl implements UsuarioService {
@@ -22,13 +25,37 @@ public class UsuarioImpl implements UsuarioService {
 
     @Override
     public DtoUsuarioResponse criarUsuario(DtoUsuarioRequest usuario) {
-        Usuario novoUsuario = new Usuario();
-        novoUsuario.setLogin(usuario.getLogin());
-        novoUsuario.setSenha(usuario.getSenha());
-        novoUsuario.setPapel(new Papel(usuario.getPapel()));
+        if (repository.findByLogin(usuario.getLogin()) != null){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Usuário já cadastrado!."
+            );
+        }
+
+        if (!conferePapel(usuario.getPapel())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "PAPEL inválido!."
+            );
+        }
+
+        String senhaEncriptada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+
+        Usuario novoUsuario = new Usuario(senhaEncriptada, usuario.getLogin(),
+                usuario.getPapel());
+
         repository.save(novoUsuario);
 
         return new DtoUsuarioResponse(novoUsuario);
+    }
+
+    public boolean conferePapel(String papel) {
+        var papelUpper = papel.toUpperCase();
+        if(papelUpper == "ADM" || papelUpper == "PEDAGOGICO" ||
+                papelUpper == "RECRUITER" ||
+                papelUpper == "PROFESSOR" ||
+                papelUpper == "ALUNO"){
+            return true;
+        } return false;
+
     }
 
 }
