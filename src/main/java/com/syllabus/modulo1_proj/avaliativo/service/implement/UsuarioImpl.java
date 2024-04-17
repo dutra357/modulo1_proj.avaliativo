@@ -1,8 +1,10 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.login.LoginDtoRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.usuario.DtoUsuarioRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.usuario.DtoUsuarioResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Usuario;
 import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
+import com.syllabus.modulo1_proj.avaliativo.entities.enuns.UsuarioPapel;
 import com.syllabus.modulo1_proj.avaliativo.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +32,14 @@ public class UsuarioImpl implements UsuarioService {
             );
         }
 
-
         String senhaEncriptada = new BCryptPasswordEncoder().encode(usuario.getSenha());
 
         Usuario novoUsuario = new Usuario(usuario.getPapel(), senhaEncriptada,
                 usuario.getLogin());
+
+        UsuarioPapel papel = UsuarioPapel.valueOf(usuario.getPapel());
+
+        novoUsuario.setRole(papel);
 
         repository.save(novoUsuario);
 
@@ -43,10 +48,10 @@ public class UsuarioImpl implements UsuarioService {
 
     public boolean conferePapel(String papel) {
         var papelUpper = papel.toUpperCase();
-        if(papelUpper == "ADMIN" || papelUpper == "PEDAGOGICO" ||
-                papelUpper == "RECRUITER" ||
-                papelUpper == "PROFESSOR" ||
-                papelUpper == "ALUNO"){
+        if(papelUpper.equals("ADMIN") || papelUpper.equals("PEDAGOGICO") ||
+                papelUpper.equals("RECRUITER")||
+                papelUpper.equals("PROFESSOR") ||
+                papelUpper.equals("ALUNO")){
             return true;
         } return false;
 

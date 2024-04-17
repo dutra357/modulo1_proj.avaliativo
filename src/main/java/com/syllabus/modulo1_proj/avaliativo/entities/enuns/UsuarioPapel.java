@@ -1,4 +1,5 @@
-package com.syllabus.modulo1_proj.avaliativo.security;
+package com.syllabus.modulo1_proj.avaliativo.entities.enuns;
+
 
 public enum UsuarioPapel {
     ADMIN("admin"),

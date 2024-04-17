@@ -20,11 +20,6 @@ public class MateriaController {
         this.service = service;
     }
 
-    @GetMapping("{id_curso}/curso")
-    public ResponseEntity<List<Materia>> listarMateriaPorCurso(@PathVariable Long id_curso) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarMateriaPorCurso(id_curso));
-    }
-
     @PostMapping
     public ResponseEntity<Materia> criarMateria(@RequestBody @Valid DtoMateria novaMateria) {
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.criarMateria(novaMateria));

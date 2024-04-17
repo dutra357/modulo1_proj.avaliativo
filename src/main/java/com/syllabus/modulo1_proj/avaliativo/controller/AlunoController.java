@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("alunos")
+@RequestMapping("/alunos")
 public class AlunoController {
 
     private final AlunoService service;
@@ -45,6 +45,8 @@ public class AlunoController {
     public ResponseEntity<List<DtoAlunoResponse>> listarTodosAlunos() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarTodosAlunos());
     }
+
+
 
     @GetMapping("{id}/pontuacao")
     public ResponseEntity<DtoNotaFinal> pontuacaoAluno(@PathVariable Long id) {

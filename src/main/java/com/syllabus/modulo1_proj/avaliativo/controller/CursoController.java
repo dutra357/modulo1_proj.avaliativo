@@ -1,4 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.controller;
+import com.syllabus.modulo1_proj.avaliativo.entities.Materia;
+import com.syllabus.modulo1_proj.avaliativo.service.MateriaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,13 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("cursos")
+@RequestMapping("/cursos")
 public class CursoController {
 
     private final CursoService service;
+    private final MateriaService materiaService;
 
-    public CursoController(CursoService service) {
+    public CursoController(CursoService service, MateriaService materiaService) {
         this.service = service;
+        this.materiaService = materiaService;
     }
 
     @PostMapping
@@ -44,5 +48,11 @@ public class CursoController {
     public ResponseEntity<Void> deletarCurso(@PathVariable Long id) {
         service.deletarCurso(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    //Listar matérias por curso (consta como endpoint de MATERIAS no projeto)
+    @GetMapping("{id_curso}/materias")
+    public ResponseEntity<List<Materia>> listarMateriaPorCurso(@PathVariable Long id_curso) {
+        return ResponseEntity.status(HttpStatus.OK).body(materiaService.listarMateriaPorCurso(id_curso));
     }
 }

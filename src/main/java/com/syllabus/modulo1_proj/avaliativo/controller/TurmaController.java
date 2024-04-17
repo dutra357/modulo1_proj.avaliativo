@@ -41,7 +41,7 @@ public class TurmaController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id_curso}/curso")
+    @GetMapping
     public ResponseEntity<List<DtoTurmaResponse>> listarTodasAsTurmas() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarTodasAsTurmas());
     }

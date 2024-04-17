@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b661f670-2ee8-4b16-9535-fcc169613d50" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/dtoUtils/login/DtoTokenResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/security/FiltroSegurança.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/security/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/AlunoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/AlunoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/CursoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/CursoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/MateriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/MateriaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/TurmaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/controller/TurmaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/entities/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/entities/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/repository/PapelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/repository/PapelRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/security/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/LoginServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/security/SecConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/security/SecConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/security/UsuarioPapel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/entities/enuns/UsuarioPapel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/UsuarioImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/UsuarioImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2fEKR5H0mAXVdAvyBWQac0MQBAZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Application.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feat/loginJWT",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/dadut/OneDrive/Documentos/Programação/FullStack - FMT/modulo1_proj.avaliativo",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.language"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dadut\OneDrive\Documentos\Programação\FullStack - FMT\modulo1_proj.avaliativo\src\main\resources" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b661f670-2ee8-4b16-9535-fcc169613d50" name="Changes" comment="" />
+      <created>1713360787688</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713360787688</updated>
+    </task>
+    <servers />
+  </component>
+</project>
