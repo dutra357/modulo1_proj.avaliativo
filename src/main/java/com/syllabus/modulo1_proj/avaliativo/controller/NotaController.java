@@ -20,11 +20,6 @@ public class NotaController {
         this.service = service;
     }
 
-    @GetMapping("{id_curso}/alunos")
-    public ResponseEntity<List<DtoNotaResponse>> listarNotasPorAluno(@PathVariable Long id_curso) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarNotasPorAluno(id_curso));
-    }
-
     @PostMapping
     public ResponseEntity<DtoNotaResponse> criarNota(@RequestBody @Valid DtoNota novaNota) {
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.criarNota(novaNota));

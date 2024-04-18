@@ -2,7 +2,9 @@ package com.syllabus.modulo1_proj.avaliativo.controller;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
+import com.syllabus.modulo1_proj.avaliativo.service.NotaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,11 @@ import java.util.List;
 public class AlunoController {
 
     private final AlunoService service;
+    private  final NotaService notaService;
 
-    public AlunoController(AlunoService service) {
+    public AlunoController(AlunoService service, NotaService notaService) {
         this.service = service;
+        this.notaService = notaService;
     }
 
     @PostMapping
@@ -47,7 +51,14 @@ public class AlunoController {
     }
 
 
+    //Endpoint apontado no projeto como de Notas
+    @GetMapping("{id_aluno}/notas")
+    public ResponseEntity<List<DtoNotaResponse>> listarNotasPorAluno(@PathVariable Long id_aluno) {
+        return ResponseEntity.status(HttpStatus.OK).body(notaService.listarNotasPorAluno(id_aluno));
+    }
 
+    //Get pontuação total do aluno
+    //"a pontuação é dada pela seguinte lógica: soma das notas, dividido pelo número de matérias, multiplicado por 10"
     @GetMapping("{id}/pontuacao")
     public ResponseEntity<DtoNotaFinal> pontuacaoAluno(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.pontuacaoAluno(id));

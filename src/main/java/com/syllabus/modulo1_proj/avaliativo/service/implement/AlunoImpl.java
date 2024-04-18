@@ -3,11 +3,14 @@ import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoRequest;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Aluno;
+import com.syllabus.modulo1_proj.avaliativo.entities.Materia;
 import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 import com.syllabus.modulo1_proj.avaliativo.repository.AlunoRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.TurmaRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
+import com.syllabus.modulo1_proj.avaliativo.service.MateriaService;
+import com.syllabus.modulo1_proj.avaliativo.service.NotaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,10 +27,12 @@ public class AlunoImpl implements AlunoService {
     private final AlunoRepository repository;
     private final UsuarioRepository usuarioRepo;
     private final TurmaRepository turmaRepo;
-    public AlunoImpl(AlunoRepository repository, UsuarioRepository usuarioRepo, TurmaRepository turmaRepo) {
+    private final MateriaService materiaService;
+    public AlunoImpl(AlunoRepository repository, UsuarioRepository usuarioRepo, TurmaRepository turmaRepo, MateriaService materiaService, NotaService notaService, MateriaService materiaService1) {
         this.repository = repository;
         this.usuarioRepo = usuarioRepo;
         this.turmaRepo = turmaRepo;
+        this.materiaService = materiaService1;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class AlunoImpl implements AlunoService {
     public DtoAlunoResponse atualizarAluno(Long id, DtoAlunoRequest aluno) {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Aluno não encontrada para alteração."
+                    HttpStatus.NOT_FOUND, "Aluno não encontrado para alteração."
             );
         }
 
@@ -114,17 +119,18 @@ public class AlunoImpl implements AlunoService {
         }
 
         List<Nota> notasAluno = repository.listarNotasPorAluno(alunoId);
-
         if (notasAluno.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há notas cadastradas."
             );
         }
 
+        List<Materia> numeroMaterias = materiaService.listarTodasMaterias();
+
         Double total = 0.0;
         for (Nota count : notasAluno){
             total += count.getValor();
         }
-        return new DtoNotaFinal((total/notasAluno.size())*10);
+        return new DtoNotaFinal((total/numeroMaterias.size())*10);
     }
 }

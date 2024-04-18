@@ -1,6 +1,7 @@
 package com.syllabus.modulo1_proj.avaliativo.service;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNota;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
+import com.syllabus.modulo1_proj.avaliativo.entities.Materia;
 import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface NotaService {
     DtoNotaResponse atualizarNota(Long id, DtoNota nota);
 
     void deletarNota(Long id);
+
 }

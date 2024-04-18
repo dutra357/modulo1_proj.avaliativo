@@ -16,4 +16,7 @@ public interface MateriaService {
     Materia atualizarMateria(Long id, DtoMateria materia);
 
     void deletarMateria(Long id);
+
+    List<Materia> listarTodasMaterias();
+
 }
