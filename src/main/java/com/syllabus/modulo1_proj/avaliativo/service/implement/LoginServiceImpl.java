@@ -11,8 +11,10 @@ public class LoginServiceImpl implements UserDetailsService {
 
     @Autowired
     UsuarioRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByLogin(username);
     }
+
 }

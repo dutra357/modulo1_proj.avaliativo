@@ -46,6 +46,10 @@ public class UsuarioImpl implements UsuarioService {
         return new DtoUsuarioResponse(novoUsuario);
     }
 
+    public Usuario buscarPorLogin(String usuario_login) {
+        return repository.buscarPorLogin(usuario_login);
+    }
+
     public boolean conferePapel(String papel) {
         var papelUpper = papel.toUpperCase();
         if(papelUpper.equals("ADMIN") || papelUpper.equals("PEDAGOGICO") ||

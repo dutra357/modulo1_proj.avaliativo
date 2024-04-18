@@ -1,4 +1,5 @@
 package com.syllabus.modulo1_proj.avaliativo.security;
+import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,16 +28,16 @@ public class SecConfig {
         return  httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
 
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         //falta colocar materias, sem previsao no projeto
-                        //ajustar os que vem apos o endpoint /* e /**
 
                         .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/cadastro").hasRole("ADMIN")
 
                         //turma ok,
                         .requestMatchers(HttpMethod.POST, "/turmas", "/cursos", "/alunos").hasRole("PEDAGOGICO")
-                        .requestMatchers(HttpMethod.GET, "/turmas", "/turmas/*", "/cursos", "/cursos/*", "/alunos", "/alunos/*").hasRole("PEDAGOGICO")
+                        .requestMatchers(HttpMethod.GET, "/turmas", "/turmas/*", "/cursos", "/cursos/*", "/alunos","/alunos/*").hasRole("PEDAGOGICO")
                         .requestMatchers(HttpMethod.PUT, "/turmas/*", "/cursos/*", "/alunos/*").hasRole("PEDAGOGICO")
 
                         //ok
@@ -48,7 +50,7 @@ public class SecConfig {
                         .requestMatchers(HttpMethod.GET, "/docentes", "/docentes/*").hasRole("RECRUITER")
                         .requestMatchers(HttpMethod.PUT, "/docentes/*").hasRole("RECRUITER")
 
-                        //Aluno só acessa pontuação e notas, não acessa listagem de todos os alunos
+                        //Aluno só acessa pontuação e suas notas, não acessa listagem de todos os alunos
                         .requestMatchers(HttpMethod.GET, "/alunos/**").hasRole("ALUNO")
 
                         .anyRequest().authenticated()
@@ -68,4 +70,5 @@ public class SecConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 }
