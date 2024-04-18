@@ -36,9 +36,9 @@ public class SecConfig {
                         .requestMatchers(HttpMethod.POST, "/cadastro").hasRole("ADMIN")
 
                         //turma ok,
-                        .requestMatchers(HttpMethod.POST, "/turmas", "/cursos", "/alunos").hasRole("PEDAGOGICO")
-                        .requestMatchers(HttpMethod.GET, "/turmas", "/turmas/*", "/cursos", "/cursos/*", "/alunos","/alunos/*").hasRole("PEDAGOGICO")
-                        .requestMatchers(HttpMethod.PUT, "/turmas/*", "/cursos/*", "/alunos/*").hasRole("PEDAGOGICO")
+                        .requestMatchers(HttpMethod.POST, "/turmas", "/cursos", "/alunos", "/materias").hasRole("PEDAGOGICO")
+                        .requestMatchers(HttpMethod.GET, "/turmas", "/turmas/*", "/cursos", "/cursos/*", "/alunos","/alunos/*", "/materias", "/materias/*").hasRole("PEDAGOGICO")
+                        .requestMatchers(HttpMethod.PUT, "/turmas/*", "/cursos/*", "/alunos/*", "/materias/*").hasRole("PEDAGOGICO")
 
                         //ok
                         .requestMatchers(HttpMethod.POST, "/notas").hasRole("PROFESSOR")
