@@ -16,4 +16,5 @@ public interface MateriaRepository extends JpaRepository<Materia, Long> {
 
     @Query("SELECT curso FROM Curso curso WHERE curso.id = :curso_id")
     Curso buscaCurso(@Param("curso_id") Long curso_id);
+
 }

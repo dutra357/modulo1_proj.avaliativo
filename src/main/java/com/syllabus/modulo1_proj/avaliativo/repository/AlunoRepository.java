@@ -13,4 +13,8 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
     @Query("SELECT nota FROM Nota nota WHERE nota.aluno.id = :aluno_id")
     List<Nota> listarNotasPorAluno(@Param("aluno_id") Long aluno_id);
+
+    @Query("SELECT aluno FROM Aluno aluno WHERE aluno.usuario.id = :usuario_id")
+    Aluno buscarLogado(@Param("usuario_id") Long usuario_id);
+
 }

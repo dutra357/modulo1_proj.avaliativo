@@ -96,4 +96,8 @@ public class MateriaImpl implements MateriaService {
         Materia atual = repository.findById(id).get();
         repository.delete(atual);
     }
+
+    public  List<Materia> listarTodasMaterias() {
+        return repository.findAll();
+    }
 }

@@ -9,7 +9,7 @@ public class DtoMateria {
     private String nome;
 
     @NotNull
-    @Min(value = 0, message = "Código do curso não pode ser inferior a 1.")
+    @Min(value = 1, message = "Código do curso não pode ser inferior a 1.")
     private Long curso_id;
 
     public DtoMateria(){}

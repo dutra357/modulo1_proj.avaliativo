@@ -2,6 +2,8 @@ package com.syllabus.modulo1_proj.avaliativo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "materias")
 public class Materia {
@@ -48,5 +50,17 @@ public class Materia {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Materia materia)) return false;
+        return Objects.equals(id, materia.id);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

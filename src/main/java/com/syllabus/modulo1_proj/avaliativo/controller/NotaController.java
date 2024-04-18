@@ -1,6 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.controller;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNota;
-import com.syllabus.modulo1_proj.avaliativo.entities.Nota;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNota;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
 import com.syllabus.modulo1_proj.avaliativo.service.NotaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -20,23 +20,18 @@ public class NotaController {
         this.service = service;
     }
 
-    @GetMapping("{id_curso}/alunos")
-    public ResponseEntity<List<Nota>> listarNotasPorAluno(@PathVariable Long id_aluno) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarNotasPorAluno(id_aluno));
-    }
-
     @PostMapping
-    public ResponseEntity<Nota> criarNota(@RequestBody @Valid DtoNota novaNota) {
+    public ResponseEntity<DtoNotaResponse> criarNota(@RequestBody @Valid DtoNota novaNota) {
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.criarNota(novaNota));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Nota> obterNotaPorId(@PathVariable Long nota_id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.obterNotaPorId(nota_id));
+    public ResponseEntity<DtoNotaResponse> obterNotaPorId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.obterNotaPorId(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Nota> atualizarNota(@PathVariable Long id, @RequestBody @Valid DtoNota nota) {
+    public ResponseEntity<DtoNotaResponse> atualizarNota(@PathVariable Long id, @RequestBody @Valid DtoNota nota) {
         return ResponseEntity.status(HttpStatus.OK).body(service.atualizarNota(id, nota));
     }
 

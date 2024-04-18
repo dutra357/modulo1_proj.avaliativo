@@ -28,7 +28,7 @@ public class DocenteImpl implements DocenteService {
     @Override
     public DtoDocenteResponse criarDocente(DtoDocenteRequest docente) {
 
-        if (usuarioRepo.existsById(docente.getUsuario_id())){
+        if (!usuarioRepo.existsById(docente.getUsuario_id())){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Impossível criar um docente para um usuário não cadastrado."
             );
