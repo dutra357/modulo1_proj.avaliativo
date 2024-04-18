@@ -1,5 +1,4 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.aluno.DtoAlunoResponse;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurma;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurmaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Docente;
@@ -36,12 +35,14 @@ public class TurmaImpl implements TurmaService {
     @Transactional
     public DtoTurmaResponse criarTurma(DtoTurma turma) {
         if (!cursoRepo.existsById(turma.getCurso_id())) {
+            logger.error("É necessário um Curso válido para se cadastrar uma Turma.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "É necessário um Curso válido para se cadastrar uma Turma."
             );
         }
 
         if (!docenteRepo.existsById(turma.getDocente_id())) {
+            logger.error("É necessário um Docente cadastrado para a Turma.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "É necessário um Docente cadastrado para a Turma."
             );
@@ -54,6 +55,7 @@ public class TurmaImpl implements TurmaService {
         novaTurma.setCurso(cursoRepo.getById(turma.getCurso_id()));
 
         repository.save(novaTurma);
+        logger.info("Nova Turma criada.");
 
         return new DtoTurmaResponse(novaTurma);
     }
@@ -61,10 +63,12 @@ public class TurmaImpl implements TurmaService {
     @Override
     public DtoTurmaResponse obterTurmaPorId (Long id){
         if (!repository.existsById(id)) {
+            logger.error("Turma não encontrada.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Turma não encontrada."
             );
         }
+        logger.info("Retornando turma de ID: {}", id);
         return new DtoTurmaResponse(repository.findById(id).get());
     }
 
@@ -72,12 +76,14 @@ public class TurmaImpl implements TurmaService {
     @Transactional
     public DtoTurmaResponse atualizarTurma(Long id, DtoTurma turma) {
         if (!repository.existsById(id)) {
+            logger.error("Turma não encontrada para modificação (UPDATE), ID: {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Turma não encontrada para modificação."
             );
         }
 
         if (!cursoRepo.existsById(turma.getCurso_id())) {
+            logger.error("A alteração de uma Turma exige um curso válido.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "A alteração de uma Turma exige um curso válido."
             );
@@ -86,21 +92,27 @@ public class TurmaImpl implements TurmaService {
         Turma atual = repository.findById(id).get();
         atual.setNome(turma.getNome());
         atual.setCurso(cursoRepo.getById(turma.getCurso_id()));
+
         if (turma.getDocente_id() != null) {
+            logger.info("Turma já possui Professor atribuído.");
             atual.setDocente(docenteRepo.getById(turma.getDocente_id()));
         }
+
         repository.save(atual);
+        logger.info("Turma atualizada, ID: {}", id);
         return new DtoTurmaResponse(atual);
     }
 
     @Override
     public void deletarTurma(Long id) {
         if (!repository.existsById(id)) {
+            logger.error("Turma não encontrada, ID: {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Turma não encontrada.");
         }
         Turma atual = repository.findById(id).get();
         repository.delete(atual);
+        logger.info("Turma deletada, ID: {}", id);
     }
 
     @Override
@@ -108,11 +120,12 @@ public class TurmaImpl implements TurmaService {
         List<Turma> turmas = repository.findAll();
 
         if (turmas.isEmpty()) {
+            logger.error("Não há turmas cadastradas.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há Turmas cadastradas."
             );
         }
-
+        logger.info("Listando todas as turmas encontradas.");
         return turmas.stream().map(x -> new DtoTurmaResponse(x)).collect(Collectors.toList());
     }
 

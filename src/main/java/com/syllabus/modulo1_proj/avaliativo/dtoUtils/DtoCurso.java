@@ -1,5 +1,4 @@
 package com.syllabus.modulo1_proj.avaliativo.dtoUtils;
-
 import jakarta.validation.constraints.NotBlank;
 
 public class DtoCurso {

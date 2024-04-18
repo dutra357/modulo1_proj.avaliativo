@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class UsuarioImpl implements UsuarioService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UsuarioImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UsuarioImpl.class);
 
     private final UsuarioRepository repository;
     public UsuarioImpl(UsuarioRepository repository) {
@@ -26,7 +26,9 @@ public class UsuarioImpl implements UsuarioService {
 
     @Override
     public DtoUsuarioResponse criarUsuario(DtoUsuarioRequest usuario) {
+
         if (repository.findByLogin(usuario.getLogin()) != null){
+            log.error("Usuário já cadastrado");
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Usuário já cadastrado!."
             );
@@ -42,13 +44,19 @@ public class UsuarioImpl implements UsuarioService {
         novoUsuario.setRole(papel);
 
         repository.save(novoUsuario);
+        log.info("Usuário criado");
 
         return new DtoUsuarioResponse(novoUsuario);
     }
 
     public Usuario buscarPorLogin(String usuario_login) {
+        log.info("Buscando usuário por login");
         return repository.buscarPorLogin(usuario_login);
     }
+
+
+
+
 
     public boolean conferePapel(String papel) {
         var papelUpper = papel.toUpperCase();

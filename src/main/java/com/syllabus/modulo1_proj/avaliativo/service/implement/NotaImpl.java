@@ -49,8 +49,9 @@ public class NotaImpl implements NotaService {
     @Override
     public List<DtoNotaResponse> listarNotasPorAluno(Long alunoId) {
         if (!repository.existsById(alunoId)) {
+            logger.error("Aluno não encontrado para listagem de notas, ID informado: {}", alunoId);
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Aluno não encontrado.");
+                    HttpStatus.NOT_FOUND, "Aluno não encontrado para listagem de notas.");
         }
 
         String usuarioSessao = request.getUserPrincipal().getName();
@@ -62,24 +63,29 @@ public class NotaImpl implements NotaService {
         if ((usuario.getRole() == UsuarioPapel.ALUNO) &&
                 (logado.getId() == alunoId)) {
             if (notasAluno.isEmpty()) {
+                logger.error("Aluno não possui notas cadastradas, Aluno ID: {}", alunoId);
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Você não possui notas cadastradas."
                 );
             }
+            logger.info("Retornando lista do Aluno de ID {}", alunoId);
             return notasAluno.stream().map(x -> new DtoNotaResponse(x)).collect(Collectors.toList());
         }
 
         else if ((usuario.getRole() == UsuarioPapel.ALUNO) &&
                 (usuario.getId() != alunoId)) {
+            logger.error("Não autorizado. Aluno logado poade acessar apenas suas próprias notas");
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN, "Notas disponíveis apenas ao usuário/aluno logado.");
         }
 
         if (notasAluno.isEmpty()) {
+            logger.error("Não há notas para o Aluno de ID: {}", alunoId);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há notas cadastradas para este Aluno."
             );
         }
+        logger.info("Retornando todas as notas do Aluno de ID {}.", alunoId);
         return notasAluno.stream().map(x -> new DtoNotaResponse(x)).collect(Collectors.toList());
     }
 
@@ -88,18 +94,21 @@ public class NotaImpl implements NotaService {
     @Transactional
     public DtoNotaResponse criarNota(DtoNota nota) {
         if (!materiaRepo.existsById(nota.getMateria_id())) {
+            logger.error("Materia inexistente para se cadastrar uma nota");
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Materia não encontrada para se cadastrar uma nota."
+                    HttpStatus.NOT_FOUND, "É necessário haver uma matéria para se cadastrar uma Nota."
             );
         }
 
         if (!alunoRepo.existsById(nota.getAluno_id())) {
+            logger.error("Aluno não encontrado para se cadastrar uma nota. ID informado: {}", nota.getAluno_id());
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado para se cadastrar uma nota."
             );
         }
 
         if (!docenteRepo.existsById(nota.getDocente_id())) {
+            logger.error("Impossível cadastrar nota sem haver Professor.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Docente não encontrado para se cadastrar uma nota."
             );
@@ -113,40 +122,47 @@ public class NotaImpl implements NotaService {
         novaNota.setDocente(docenteRepo.getById(nota.getDocente_id()));
         novaNota.setMateria(materiaRepo.getById(nota.getMateria_id()));
         repository.save(novaNota);
+        logger.info("Nota cadastrada com sucesso.");
         return new DtoNotaResponse(novaNota);
     }
 
     @Override
     public DtoNotaResponse obterNotaPorId (Long id){
         if (!repository.existsById(id)) {
+            logger.error("Nota não encontrada, ID {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Nota não encontrada."
             );
         }
+        logger.info("Retornando nota de ID: {}", id);
         return new DtoNotaResponse(repository.findById(id).get());
         }
 
     @Override
     public DtoNotaResponse atualizarNota(Long id, DtoNota nota) {
         if (!repository.existsById(id)) {
+            logger.error("Não foi encontrada a nota para PUT, ID: {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Nota não encontrada para edição."
             );
         }
 
         if (!materiaRepo.existsById(nota.getMateria_id())) {
+            logger.error("A edição de uma nota exige que haja Matéria válida a ela atribuída. ID informado: {}", nota.getMateria_id());
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "A alteração de uma Nota requer uma matéria."
             );
         }
 
         if (!alunoRepo.existsById(nota.getAluno_id())) {
+            logger.error("Tentativa de se cadastrar nota sem Aluno existente. ID de Aluno info: {}", nota.getAluno_id());
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "A alteração de uma Nota requer um Aluno cadastrado."
             );
         }
 
         if (!docenteRepo.existsById(nota.getDocente_id())) {
+            logger.error("A alteração de uma Nota requer uma Docente cadastrado");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "A alteração de uma Nota requer uma Docente cadastrado."
             );
@@ -159,17 +175,20 @@ public class NotaImpl implements NotaService {
         atual.setDocente(docenteRepo.getById(nota.getDocente_id()));
         atual.setMateria(materiaRepo.getById(nota.getMateria_id()));
 
+        logger.info("Nota alterada com sucesso.");
         return new DtoNotaResponse(repository.save(atual));
     }
 
     @Override
     public void deletarNota(Long id) {
         if (!repository.existsById(id)) {
+            logger.error("Nota não encontrada para exlusão, ID {}", id);
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Nota não encontrada."
+                    HttpStatus.NOT_FOUND, "Nota não encontrada para exlusão."
             );
         }
         Nota atual = repository.findById(id).get();
         repository.delete(atual);
+        logger.info("Nota excluída com sucesso, ID {}", id);
     }
 }

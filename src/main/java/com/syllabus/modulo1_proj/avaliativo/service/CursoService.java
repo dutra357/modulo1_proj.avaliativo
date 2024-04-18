@@ -1,8 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.service;
-
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoCurso;
 import com.syllabus.modulo1_proj.avaliativo.entities.Curso;
-
 import java.util.List;
 
 public interface CursoService {

@@ -29,6 +29,7 @@ public class DocenteImpl implements DocenteService {
     public DtoDocenteResponse criarDocente(DtoDocenteRequest docente) {
 
         if (!usuarioRepo.existsById(docente.getUsuario_id())){
+            logger.error("Para cadastrar um docente é preciso ter um usuário anterior, ao qual é atribuída tal qualidade.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Impossível criar um docente para um usuário não cadastrado."
             );
@@ -40,22 +41,26 @@ public class DocenteImpl implements DocenteService {
         novoDocente.setUsuario(usuarioRepo.getById(docente.getUsuario_id()));
 
         repository.save(novoDocente);
+        logger.info("Novo docente cadastrado com sucesso.");
         return new DtoDocenteResponse(novoDocente);
     }
 
     @Override
     public DtoDocenteResponse obterDocentePorId (Long id){
         if (!repository.existsById(id)) {
+            logger.error("Não encontrado Docente com o ID informado, {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Docente não encontrado."
             );
         }
+        logger.info("Retornando o Docente pesquisado por ID, {}", id);
         return new DtoDocenteResponse(repository.findById(id).get());
     }
 
     @Override
     public DtoDocenteResponse atualizarDocente(Long id, DtoDocenteRequest docente) {
         if (!repository.existsById(id)) {
+            logger.error("Docente não encontrada para alteração");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Docente não encontrada para alteração."
             );
@@ -65,6 +70,7 @@ public class DocenteImpl implements DocenteService {
         atual.setNome(docente.getNome());
         atual.setDataEntrada(LocalDate.now());
         repository.save(atual);
+        logger.info("Docente editado com sucesso, ID {}", id);
 
         return new DtoDocenteResponse(atual);
     }
@@ -72,12 +78,14 @@ public class DocenteImpl implements DocenteService {
     @Override
     public void deletarDocente(Long id) {
         if (!repository.existsById(id)) {
+                logger.error("Não encontrado Docente a ser excluído, ID {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Docente não encontrado."
             );
         }
         Docente atual = repository.findById(id).get();
         repository.delete(atual);
+        logger.info("Docente excluído com sucesso, ID {}", id);
     }
 
     @Override
@@ -86,11 +94,12 @@ public class DocenteImpl implements DocenteService {
         List<Docente> listaDocentes = repository.findAll();
 
         if (listaDocentes.isEmpty()) {
+            logger.error("Não há Docentes a serem listados. Lista vazia.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há Docentes cadastrados."
             );
         }
-
+        logger.info("Retornando lista de todos os Docentes cadastrados.");
         return listaDocentes.stream().map(x -> new DtoDocenteResponse(x)).collect(Collectors.toList());
     }
 }

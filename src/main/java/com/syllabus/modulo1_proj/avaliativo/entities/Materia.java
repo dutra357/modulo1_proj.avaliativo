@@ -1,7 +1,5 @@
 package com.syllabus.modulo1_proj.avaliativo.entities;
-
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity
