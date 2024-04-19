@@ -181,7 +181,9 @@ public class AlunoImpl implements AlunoService {
         for (Nota count : notasAluno){
             pontuacaoTotal += count.getValor();
         }
+
         Double resultado = (pontuacaoTotal/numeroMaterias.size())*10;
+
         logger.debug("Retornando cálculo de pontuação. Método calcularPontuacaoFinal.");
         return resultado;
     }
