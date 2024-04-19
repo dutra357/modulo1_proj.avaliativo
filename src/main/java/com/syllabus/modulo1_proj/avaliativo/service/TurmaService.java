@@ -1,7 +1,6 @@
 package com.syllabus.modulo1_proj.avaliativo.service;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurma;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.turma.DtoTurmaResponse;
-import com.syllabus.modulo1_proj.avaliativo.entities.Turma;
 import java.util.List;
 
 public interface TurmaService {

@@ -13,7 +13,6 @@ import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
 import com.syllabus.modulo1_proj.avaliativo.service.MateriaService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,6 @@ public class AlunoImpl implements AlunoService {
         this.usuarioRepo = usuarioRepo;
         this.turmaRepo = turmaRepo;
         this.materiaService = materiaService;
-
         this.request = request;
         this.usuarioService = usuarioService;
     }
@@ -48,12 +46,14 @@ public class AlunoImpl implements AlunoService {
     @Override
     public DtoAlunoResponse criarAluno(DtoAlunoRequest aluno) {
         if (!usuarioRepo.existsById(aluno.getUsuario_id())){
+            logger.error("Necessário um usuário cadastrado para se criar novo Aluno");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Impossível criar um Aluno sem um usuário não cadastrado."
             );
         }
 
         if (!turmaRepo.existsById(aluno.getTurma_id())){
+            logger.error("Impossível criar um Aluno sem o vincular a uma Turma existente");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Impossível criar um Aluno sem o vincular a uma Turma existente/válida."
             );
@@ -66,6 +66,7 @@ public class AlunoImpl implements AlunoService {
         novoAluno.setUsuario(usuarioRepo.getById(aluno.getUsuario_id()));
         novoAluno.setTurma(turmaRepo.getById(aluno.getTurma_id()));
         repository.save(novoAluno);
+        logger.info("Novo Aluno cadastrado com sucesso.");
 
         return new DtoAlunoResponse(novoAluno);
     }
@@ -73,16 +74,19 @@ public class AlunoImpl implements AlunoService {
     @Override
     public DtoAlunoResponse obterAlunoPorId (Long id){
         if (!repository.existsById(id)) {
+            logger.error("Aluno não encontrado, ID {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado."
             );
         }
+        logger.info("Retornando Aluno solicitado, ID {}", id);
         return new DtoAlunoResponse(repository.findById(id).get());
     }
 
     @Override
     public DtoAlunoResponse atualizarAluno(Long id, DtoAlunoRequest aluno) {
         if (!repository.existsById(id)) {
+            logger.error("Aluno não encontrado para alteração/PUT, ID {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado para alteração."
             );
@@ -92,19 +96,21 @@ public class AlunoImpl implements AlunoService {
         atual.setNome(aluno.getNome());
         atual.setDataNascimento(aluno.getDataNascimento());
         repository.save(atual);
-
+        logger.info("Aluno alterado com sucesso, ID {}", id);
         return new DtoAlunoResponse(atual);
     }
 
     @Override
     public void deletarAluno(Long id) {
         if (!repository.existsById(id)) {
+            logger.error("Aluno não encontrado para método DELETE, ID {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado."
             );
         }
         Aluno atual = repository.findById(id).get();
         repository.delete(atual);
+        logger.info("Aluno excluído com sucesso, ID {}", id);
     }
 
     @Override
@@ -113,22 +119,26 @@ public class AlunoImpl implements AlunoService {
         List<Aluno> listaAlunos = repository.findAll();
 
         if (listaAlunos.isEmpty()) {
+            logger.error("Lista zerada. Não há Alunos cadastrados.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há Alunos cadastrados."
             );
         }
+        logger.info("Retornando listagem de todos os Alunos cadastrados.");
         return listaAlunos.stream().map(DtoAlunoResponse::new).collect(Collectors.toList());
     }
 
 
     @Override
     public DtoNotaFinal pontuacaoAluno(Long alunoId){
+        logger.debug("Requerendo nome de usuário (login) do usuário logado.");
         String usuarioSessao = request.getUserPrincipal().getName();
         Usuario usuario = usuarioService.buscarPorLogin(usuarioSessao);
         Aluno logado = repository.buscarLogado(usuario.getId());
 
         if ((usuario.getRole() == UsuarioPapel.ALUNO) &&
                 (logado.getId() == alunoId)) {
+            logger.debug("Usuário corresponde à role ALUNO.");
             Long id = logado.getId();
             var notaFinal = calcularPontuacaoFinal(id);
             return new DtoNotaFinal(notaFinal);
@@ -136,16 +146,18 @@ public class AlunoImpl implements AlunoService {
 
         else if ((usuario.getRole() == UsuarioPapel.ALUNO) &&
                 (usuario.getId() != alunoId)) {
+            logger.error("Aluno logado solicita pontuação de outro Aluno/Usuário.");
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN, "Disponível apenas a pontuação do usuário/aluno logado.");
         }
 
         //Para requisição por parte de ADMN, PROFESSOR etc.
         else if (!repository.existsById(alunoId)) {
+            logger.error("Aluno não encontrado, ID {}", alunoId);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado.");
         }
-
+        logger.info("Retornando pontuação final do aluno.");
         return new DtoNotaFinal(calcularPontuacaoFinal(alunoId));
     }
 
@@ -155,6 +167,7 @@ public class AlunoImpl implements AlunoService {
         List<Nota> notasAluno = repository.listarNotasPorAluno(aluno_id);
 
         if (notasAluno.isEmpty()) {
+            logger.error("Não há notas cadastradas para realização do cálculo de pontuação.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há notas cadastradas."
             );
@@ -163,12 +176,13 @@ public class AlunoImpl implements AlunoService {
         //Projeto solicita divisão pelo número de matérias, não de notas
         List<Materia> numeroMaterias = materiaService.listarTodasMaterias();
 
+        logger.debug("Calculando pontuação.");
         Double pontuacaoTotal = 0.0;
         for (Nota count : notasAluno){
             pontuacaoTotal += count.getValor();
         }
         Double resultado = (pontuacaoTotal/numeroMaterias.size())*10;
-
+        logger.debug("Retornando cálculo de pontuação. Método calcularPontuacaoFinal.");
         return resultado;
     }
 }
