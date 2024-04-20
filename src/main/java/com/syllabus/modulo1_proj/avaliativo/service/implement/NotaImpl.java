@@ -1,5 +1,4 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNota;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Aluno;
@@ -11,7 +10,6 @@ import com.syllabus.modulo1_proj.avaliativo.repository.DocenteRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.MateriaRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.NotasRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.NotaService;
-import com.syllabus.modulo1_proj.avaliativo.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -36,8 +34,7 @@ public class NotaImpl implements NotaService {
     private final HttpServletRequest request;
     public NotaImpl(NotasRepository repository, AlunoRepository alunoRepo,
                     DocenteRepository docenteRepo, MateriaRepository materiaRepo,
-                    UsuarioService usuarioService, UsuarioImpl usuarioService1,
-                    HttpServletRequest request) {
+                    UsuarioImpl usuarioService1, HttpServletRequest request) {
         this.repository = repository;
         this.alunoRepo = alunoRepo;
         this.docenteRepo = docenteRepo;

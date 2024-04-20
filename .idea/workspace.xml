@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eea7647-73e8-4aa2-8de7-8ceddc45c461" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/exception/ErrorHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/exception/NotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/exception/GlobalAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/exception/GlobalAdvice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/exception/dto/Erro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/exception/dto/Erro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/AlunoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/AlunoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/entities/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/entities/Usuario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/NotaImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/NotaImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/UsuarioImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/syllabus/modulo1_proj/avaliativo/service/implement/UsuarioImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +49,7 @@
   "keyToString": {
     "Application.Application.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/exception",
+    "git-widget-placeholder": "feat/readme",
     "kotlin-language-version-configured": "true",
     "settings.editor.selected.configurable": "configurable.group.language"
   }
