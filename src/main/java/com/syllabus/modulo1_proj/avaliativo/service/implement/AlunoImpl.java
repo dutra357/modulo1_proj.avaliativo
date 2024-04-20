@@ -13,6 +13,7 @@ import com.syllabus.modulo1_proj.avaliativo.repository.UsuarioRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.AlunoService;
 import com.syllabus.modulo1_proj.avaliativo.service.MateriaService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.tool.schema.spi.ExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -176,13 +177,31 @@ public class AlunoImpl implements AlunoService {
         //Projeto solicita divisão pelo número de matérias, não de notas
         List<Materia> numeroMaterias = materiaService.listarTodasMaterias();
 
-        logger.debug("Calculando pontuação.");
-        Double pontuacaoTotal = 0.0;
-        for (Nota count : notasAluno){
-            pontuacaoTotal += count.getValor();
+        if (numeroMaterias.isEmpty()) {
+            logger.error("Não há notas matérias cadastradas, possível divisão por zero.");
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Divisão por zero, não há matérias cadastradas."
+            );
         }
-        Double resultado = (pontuacaoTotal/numeroMaterias.size())*10;
-        logger.debug("Retornando cálculo de pontuação. Método calcularPontuacaoFinal.");
-        return resultado;
+
+        try {
+            logger.debug("Calculando pontuação.");
+            Double pontuacaoTotal = 0.0;
+            for (Nota count : notasAluno){
+                pontuacaoTotal += count.getValor();
+            }
+            Double resultado = (pontuacaoTotal/numeroMaterias.size())*10;
+
+            logger.debug("Retornando cálculo de pontuação. Método calcularPontuacaoFinal.");
+            return resultado;
+        } catch (ArithmeticException e) {
+            logger.error("Erro de aritimética.");
+            throw new ArithmeticException("Erro de aritimética.");
+        } catch (Exception e) {
+            logger.error("Erro ao calcular pontuação.");
+            throw new ArithmeticException("Erro ao calcular pontuação.");
+        } finally {
+            logger.debug("Método calcularPontuacao encerrado.");
+        }
     }
 }

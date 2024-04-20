@@ -34,6 +34,8 @@ public class UsuarioImpl implements UsuarioService {
             );
         }
 
+        conferePapel(usuario.getPapel());
+
         String senhaEncriptada = new BCryptPasswordEncoder().encode(usuario.getSenha());
 
         Usuario novoUsuario = new Usuario(usuario.getPapel(), senhaEncriptada,
@@ -54,10 +56,6 @@ public class UsuarioImpl implements UsuarioService {
         return repository.buscarPorLogin(usuario_login);
     }
 
-
-
-
-
     public boolean conferePapel(String papel) {
         var papelUpper = papel.toUpperCase();
         if(papelUpper.equals("ADMIN") || papelUpper.equals("PEDAGOGICO") ||
@@ -65,8 +63,8 @@ public class UsuarioImpl implements UsuarioService {
                 papelUpper.equals("PROFESSOR") ||
                 papelUpper.equals("ALUNO")){
             return true;
-        } return false;
-
+        } log.error("Papel não condizente com as opções disponíveis (nível de acesso).");
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "Papel não condizente com as opções disponíveis (nível de acesso).");
     }
-
 }

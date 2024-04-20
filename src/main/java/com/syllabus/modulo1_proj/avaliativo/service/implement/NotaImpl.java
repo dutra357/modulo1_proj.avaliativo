@@ -1,4 +1,5 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
+import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNota;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Aluno;
@@ -93,17 +94,23 @@ public class NotaImpl implements NotaService {
     @Override
     @Transactional
     public DtoNotaResponse criarNota(DtoNota nota) {
-        if (!materiaRepo.existsById(nota.getMateria_id())) {
-            logger.error("Materia inexistente para se cadastrar uma nota");
+        if (alunoRepo.getById(nota.getAluno_id()).getUsuario().getRole() != UsuarioPapel.ALUNO) {
+            logger.error("Nova nota só pode ser atribuída a um aluno (ROLE_ALUNO).");
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "É necessário haver uma matéria para se cadastrar uma Nota."
-            );
+                    HttpStatus.FORBIDDEN, "Uma nota só pode ser atribuída a um aluno (role: ALUNO).");
         }
 
         if (!alunoRepo.existsById(nota.getAluno_id())) {
             logger.error("Aluno não encontrado para se cadastrar uma nota. ID informado: {}", nota.getAluno_id());
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado para se cadastrar uma nota."
+            );
+        }
+
+        if (!materiaRepo.existsById(nota.getMateria_id())) {
+            logger.error("Materia inexistente para se cadastrar uma nota");
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "É necessário haver uma matéria para se cadastrar uma Nota."
             );
         }
 
