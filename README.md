@@ -15,30 +15,32 @@ Não menos importante, ainda podemos citar a facilidade de acesso aos dados por 
 
 
 
-# Tecnologias utilizadas
-## Back end
+## Tecnologias utilizadas
+### Back end
 - Java
 - Spring Boot
+- Spring Security - JWT Token
 - JPA / Hibernate
 - Maven
-- PostegreSQL
+- PostegreSQL (conexão direta na máquina)
 
 
-# Artefato
+## Artefato
 modulo1_proj.avaliativo
 
-# clonar repositório
+## Clonar repositório
 https://github.com/dutra357/modulo1_proj.avaliativo
 
-# Trello
+## Trello
 https://trello.com/b/nxf5tBfg/modulo-1-projeto-avaliativo
 
 
-# Como executar o projeto
 ## Execução e cuidados
-A execução da aplicação reclama alguns cuidados, notadamente com o cadastro inicial de administrador (ADMIN), com um mock de cadastro automático inserido no método main.
+A execução da aplicação reclama alguns cuidados, notadamente com o cadastro inicial de administrador (ADMIN).
 
-É perfeitamente possível, no entanto, que a aplicação seja primeiramente iniciada modificand-se as configurações de segurança (SecConfig), setando-se o POST de cadastro para ".permitAll()", e o campo final de ".anyRequest()" para ".permitAll()".
+Ainda que possa ser feita uma rotina de cadastro automático de "root", preferimos que a aplicação seja primeiramente iniciada modificand-se as configurações de segurança (SecConfig), setando-se o POST de cadastro para ".permitAll()", e o campo final de ".anyRequest()" para ".permitAll()".
+
+Feito isso, o usuário pderá cadastrar o primeiro ADMIN no banco de dados, retornando às configurações iniciais e reiniciando o sistema. 
 
 Qualquer que seja o caso, é primordial efetivar o cadastramento de novo ADMIN com senha diversa da padrão (login: root / senha:root).
 

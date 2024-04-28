@@ -20,8 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecConfig {
-
-    @Autowired
+     @Autowired
     FiltroSegurança filtroSegurança;
 
     private static final Logger logger = LoggerFactory.getLogger(SecConfig.class);
@@ -68,7 +67,7 @@ public class SecConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        logger.debug("Execução do Encoder.");
+        logger.debug("Executando Encoder.");
         return new BCryptPasswordEncoder();
     }
 

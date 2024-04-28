@@ -185,20 +185,20 @@ public class AlunoImpl implements AlunoService {
         }
 
         try {
-            logger.debug("Calculando pontuação.");
+            logger.debug("Calculando pontuação. Número de matérias: {}", numeroMaterias);
             Double pontuacaoTotal = 0.0;
             for (Nota count : notasAluno){
                 pontuacaoTotal += count.getValor();
             }
             Double resultado = (pontuacaoTotal/numeroMaterias.size())*10;
 
-            logger.debug("Retornando cálculo de pontuação. Método calcularPontuacaoFinal.");
+            logger.debug("Retornando cálculo de pontuação. Método calcularPontuacaoFinal, res: {}", resultado);
             return resultado;
         } catch (ArithmeticException e) {
             logger.error("Erro de aritimética.");
             throw new ArithmeticException("Erro de aritimética.");
         } catch (Exception e) {
-            logger.error("Erro ao calcular pontuação.");
+            logger.error("Erro genérico ao calcular pontuação.");
             throw new ArithmeticException("Erro ao calcular pontuação.");
         } finally {
             logger.debug("Método calcularPontuacao encerrado.");
