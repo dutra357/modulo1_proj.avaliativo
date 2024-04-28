@@ -1,6 +1,5 @@
 package com.syllabus.modulo1_proj.avaliativo.entities;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -33,6 +32,10 @@ public class Docente {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -47,5 +50,13 @@ public class Docente {
 
     public void setDataEntrada(LocalDate dataEntrada) {
         this.dataEntrada = dataEntrada;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

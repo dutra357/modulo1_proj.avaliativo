@@ -1,9 +1,10 @@
 package com.syllabus.modulo1_proj.avaliativo.entities;
 import jakarta.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "turmas")
-public class Turma {
+@Table(name = "materias")
+public class Materia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,34 +14,15 @@ public class Turma {
     @Column(name = "nome", length = 150, nullable = false)
     private String nome;
 
-    @ManyToOne()
-    @JoinColumn(name = "professor_id")
-    private Docente docente;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
 
 
-    public Turma(){}
-    public Turma(Long id, String nome) {
+
+    public Materia(){}
+    public Materia(Long id, String nome) {
         this.id = id;
-        this.nome = nome;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -52,11 +34,31 @@ public class Turma {
         this.curso = curso;
     }
 
-    public Docente getDocente() {
-        return docente;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDocente(Docente docente) {
-        this.docente = docente;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Materia materia)) return false;
+        return Objects.equals(id, materia.id);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
