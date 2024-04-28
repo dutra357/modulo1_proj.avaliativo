@@ -1,5 +1,4 @@
 package com.syllabus.modulo1_proj.avaliativo.service.implement;
-import com.syllabus.modulo1_proj.avaliativo.dtoUtils.DtoNotaFinal;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNota;
 import com.syllabus.modulo1_proj.avaliativo.dtoUtils.notas.DtoNotaResponse;
 import com.syllabus.modulo1_proj.avaliativo.entities.Aluno;
@@ -11,7 +10,6 @@ import com.syllabus.modulo1_proj.avaliativo.repository.DocenteRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.MateriaRepository;
 import com.syllabus.modulo1_proj.avaliativo.repository.NotasRepository;
 import com.syllabus.modulo1_proj.avaliativo.service.NotaService;
-import com.syllabus.modulo1_proj.avaliativo.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -19,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +33,7 @@ public class NotaImpl implements NotaService {
     private final HttpServletRequest request;
     public NotaImpl(NotasRepository repository, AlunoRepository alunoRepo,
                     DocenteRepository docenteRepo, MateriaRepository materiaRepo,
-                    UsuarioService usuarioService, UsuarioImpl usuarioService1,
-                    HttpServletRequest request) {
+                    UsuarioImpl usuarioService1, HttpServletRequest request) {
         this.repository = repository;
         this.alunoRepo = alunoRepo;
         this.docenteRepo = docenteRepo;
@@ -70,7 +66,7 @@ public class NotaImpl implements NotaService {
                 );
             }
             logger.info("Retornando lista do Aluno de ID {}", alunoId);
-            return notasAluno.stream().map(x -> new DtoNotaResponse(x)).collect(Collectors.toList());
+            return notasAluno.stream().map(DtoNotaResponse::new).collect(Collectors.toList());
         }
 
         else if ((usuario.getRole() == UsuarioPapel.ALUNO) &&
@@ -95,7 +91,7 @@ public class NotaImpl implements NotaService {
     @Transactional
     public DtoNotaResponse criarNota(DtoNota nota) {
         if (alunoRepo.getById(nota.getAluno_id()).getUsuario().getRole() != UsuarioPapel.ALUNO) {
-            logger.error("Nova nota só pode ser atribuída a um aluno (ROLE_ALUNO).");
+            logger.error("Uma NOTA só pode ser atribuída a um aluno (ROLE_ALUNO).");
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN, "Uma nota só pode ser atribuída a um aluno (role: ALUNO).");
         }
@@ -162,7 +158,7 @@ public class NotaImpl implements NotaService {
         }
 
         if (!alunoRepo.existsById(nota.getAluno_id())) {
-            logger.error("Tentativa de se cadastrar nota sem Aluno existente. ID de Aluno info: {}", nota.getAluno_id());
+            logger.error("Tentativa de se alterar nota para um Aluno inexistente. ID de Aluno info: {}", nota.getAluno_id());
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "A alteração de uma Nota requer um Aluno cadastrado."
             );
